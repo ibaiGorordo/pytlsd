@@ -8,7 +8,7 @@ Bindings over the original C implementation of LSD, that allows to change the di
 ## Install
 
 ```
-git clone --recursive https://github.com/iago-suarez/pytlsd.git
+git clone --recursive https://github.com/ibaiGorordo/pytlsd.git
 cd pytlsd
 pip3 install -r requirements.txt
 pip3 install .
