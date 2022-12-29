@@ -6,10 +6,8 @@ Bindings over the original C implementation of LSD, that allows to change the di
 ![](resources/example.jpg)
 
 ## Install
-The current instructions were tested under Ubuntu 18.04:
 
 ```
-sudo apt-get install libopencv-dev libopencv-contrib-dev libarpack++2-dev libarpack2-dev libsuperlu-dev ninja-build
 git clone --recursive https://github.com/iago-suarez/pytlsd.git
 cd pytlsd
 pip3 install -r requirements.txt
