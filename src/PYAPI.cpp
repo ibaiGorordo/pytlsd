@@ -1,7 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include <iostream>
-#include <opencv2/opencv.hpp>
 #include "lsd.h"
 
 
@@ -11,9 +10,8 @@ namespace py = pybind11;
 
 void check_img_format(const py::buffer_info& correct_info, const py::buffer_info& info, std::string name=""){
   std::stringstream ss;
-  if (info.format != correct_info.format) {
-    ss << "Error: " << name << " array has format \"" << info.format
-       << "\" but the format should be \"" << correct_info.format << "\"";
+  if (info.format != "d") {
+    ss << "Error: " << name << " array should be double type";
     throw py::type_error(ss.str());
   }
   if (info.shape.size() != correct_info.shape.size()) {
@@ -58,13 +56,13 @@ py::array_t<float> run_lsd(const py::array& img,
   }
 
   double *modgrad_ptr{};
-  double *angles_ptr{};
   if (gradnorm.size() != 0 ) {
     py::buffer_info gradnorm_info = gradnorm.request();
     check_img_format(info, gradnorm_info, "Gradnorm");
     modgrad_ptr = static_cast<double *>(gradnorm_info.ptr);
   }
 
+  double *angles_ptr{};
   if (gradangle.size() != 0) {
     py::buffer_info gradangle_info = gradangle.request();
     check_img_format(info, gradangle_info, "Gradangle");
@@ -76,13 +74,14 @@ py::array_t<float> run_lsd(const py::array& img,
   }
 
   double *imagePtr;
-  cv::Mat tmp;
   if (info.format == "d") {
     imagePtr = static_cast<double *>(info.ptr);
   } else {
-    tmp = cv::Mat(info.shape[0], info.shape[1], CV_8UC1, info.ptr);
-    tmp.convertTo(tmp, CV_64F);
-    imagePtr = tmp.ptr<double>();
+    imagePtr = new double[info.shape[0] * info.shape[1]];
+    unsigned char *img_ptr = static_cast<unsigned char *>(info.ptr);
+    for (int i = 0; i < info.shape[0] * info.shape[1]; i++) {
+      imagePtr[i] = static_cast<double>(img_ptr[i]);
+    }
   }
 
 
