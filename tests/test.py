@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 import pytlsd
 from skimage.transform import pyramid_reduce
@@ -25,7 +25,30 @@ def get_thresholded_grad(resized_img):
     return gx, gy, modgrad, anglegrad
 
 
-gray = cv2.imread('resources/ai_001_001.frame.0000.color.jpg', cv2.IMREAD_GRAYSCALE)
+def draw_distance_field(grandnorm):
+    norm_img = 255 * grandnorm / np.max(grandnorm)
+    color_map = cv2.applyColorMap(norm_img.astype(np.uint8), cv2.COLORMAP_VIRIDIS)
+    cv2.namedWindow(f"Distance field", cv2.WINDOW_NORMAL)
+    cv2.imshow(f"Distance field", color_map)
+
+
+def draw_angle_field(anglegrad):
+    angle_img = 255 * (anglegrad - np.min(anglegrad)) / (np.max(anglegrad) - np.min(anglegrad))
+    color_map = cv2.applyColorMap(angle_img.astype(np.uint8), cv2.COLORMAP_VIRIDIS)
+    cv2.namedWindow(f"Angle field", cv2.WINDOW_NORMAL)
+    cv2.imshow(f"Angle field", color_map)
+
+
+def draw_segments(gray, segments):
+    img_color = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
+    for segment in segments:
+        cv2.line(img_color, (int(segment[0]), int(segment[1])), (int(segment[2]), int(segment[3])), (0, 255, 0))
+
+    cv2.namedWindow(f"Detected segments N {len(segments)}", cv2.WINDOW_NORMAL)
+    cv2.imshow(f"Detected segments N {len(segments)}", img_color)
+
+
+gray = cv2.imread('../resources/ai_001_001.frame.0000.color.jpg', cv2.IMREAD_GRAYSCALE)
 flt_img = gray.astype(np.float64)
 
 scale_down = 0.8
@@ -34,24 +57,14 @@ resized_img = pyramid_reduce(flt_img, 1 / scale_down, 0.6)
 # Get image gradients
 gx, gy, gradnorm, gradangle = get_thresholded_grad(resized_img)
 
+start = time.perf_counter_ns()
 segments = pytlsd.lsd(resized_img, 1.0, gradnorm=gradnorm, gradangle=gradangle)
+end = time.perf_counter_ns()
+print(f"Lsd time: {(end - start) / 1e6} ms")
 segments /= scale_down
 
-plt.title("Gradient norm")
-plt.imshow(gradnorm[:-1, :-1])
-plt.colorbar()
-plt.figure()
 gradangle[gradangle == NOTDEF] = -5
-plt.title("Thresholded gradient angle")
-plt.imshow(gradangle[:-1, :-1])
-plt.colorbar()
-
-
-img_color = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
-for segment in segments:
-    cv2.line(img_color, (int(segment[0]), int(segment[1])), (int(segment[2]), int(segment[3])), (0, 255, 0))
-
-plt.figure()
-plt.title(f"Detected segments N {len(segments)}")
-plt.imshow(cv2.cvtColor(img_color, cv2.COLOR_BGR2RGB))
-plt.show()
+draw_distance_field(gradnorm)
+draw_angle_field(gradangle)
+draw_segments(gray, segments)
+cv2.waitKey(0)
