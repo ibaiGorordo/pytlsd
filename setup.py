@@ -6,11 +6,11 @@ __version__ = "0.0.2"
 
 ext_modules = [
     Pybind11Extension("pytlsd",
-        ["src/lsd.cpp",
-         "src/PYAPI.cpp"],
-        # Example: passing in the version to the compiled code
-        define_macros = [('VERSION_INFO', __version__)],
-        ),
+                      ["src/lsd.cpp",
+                       "src/PYAPI.cpp"],
+                      # Example: passing in the version to the compiled code
+                      define_macros=[('VERSION_INFO', __version__)],
+                      ),
 ]
 
 # The information here can also be placed in setup.cfg - better separation of
