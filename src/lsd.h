@@ -36,6 +36,20 @@
 #ifndef LSD_HEADER
 #define LSD_HEADER
 
+/** double image data type
+
+    The pixel value at (x,y) is accessed by:
+
+      image->data[ x + y * image->xsize ]
+
+    with x and y integer.
+ */
+typedef struct image_double_s {
+    double *data;
+    unsigned int xsize, ysize;
+} *image_double;
+
+
 /*----------------------------------------------------------------------------*/
 /** LSD Full Interface
 
@@ -280,6 +294,9 @@ double * lsd_scale(int * n_out, double * img, int X, int Y, double scale);
                        'out[7*n+0]' to 'out[7*n+6]'.
  */
 double *lsd(int *n_out, double *img, int X, int Y, double gradientThreshold = 5.2262518595055063 , double log_eps=0);
+
+image_double gaussian_sampler(image_double in, double scale, double sigma_scale);
+
 
 #endif /* !LSD_HEADER */
 /*----------------------------------------------------------------------------*/

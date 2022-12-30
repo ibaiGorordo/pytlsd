@@ -445,19 +445,6 @@ static image_int new_image_int_ini(unsigned int xsize, unsigned int ysize,
   return image;
 }
 
-/*----------------------------------------------------------------------------*/
-/** double image data type
-
-    The pixel value at (x,y) is accessed by:
-
-      image->data[ x + y * image->xsize ]
-
-    with x and y integer.
- */
-typedef struct image_double_s {
-  double *data;
-  unsigned int xsize, ysize;
-} *image_double;
 
 /*----------------------------------------------------------------------------*/
 /** Free memory used in image_double 'i'.
@@ -590,7 +577,7 @@ static void gaussian_kernel(ntuple_list kernel, double sigma, double mean) {
     in the x axis, and then the combined Gaussian kernel and sampling
     in the y axis.
  */
-static image_double gaussian_sampler(image_double in, double scale,
+image_double gaussian_sampler(image_double in, double scale,
                                      double sigma_scale) {
   image_double aux, out;
   ntuple_list kernel;
