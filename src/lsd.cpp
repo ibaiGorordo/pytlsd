@@ -701,7 +701,7 @@ image_double gaussian_sampler(image_double in, double scale,
  * @param g The gradient orientation map
  * @param modgrad the module of the gradient
  */
-static void grad_angle_orientation(image_double in, double threshold, image_double& g, image_double& modgrad){
+void grad_angle_orientation(image_double in, double threshold, image_double& g, image_double& modgrad){
   unsigned int n, p, x, y, adr;
   double com1, com2, gx, gy, norm, norm2;
   n = in->ysize;
