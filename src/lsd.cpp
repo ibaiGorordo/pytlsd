@@ -713,13 +713,13 @@ void grad_angle_orientation(image_double in, double threshold, image_double& g, 
   /* get memory for the image of gradient modulus */
   modgrad = new_image_double(in->xsize, in->ysize);
 
-  /* 'undefined' on the up and left boundaries */
-  for (x = 0; x < p; x++) g->data[x] = NOTDEF;
-  for (y = 0; y < n; y++) g->data[p * y] = NOTDEF;
+  /* 'undefined' on the down and right boundaries */
+  for (x = 0; x < p; x++) g->data[(n - 1)*p + x] = NOTDEF;
+  for (y = 0; y < n; y++) g->data[p * y + p - 1] = NOTDEF;
 
   /* compute gradient on the remaining pixels */
-  for (x = 1; x < p; x++)
-    for (y = 1; y < n; y++) {
+  for (x = 0; x < p-1; x++)
+    for (y = 0; y < n-1; y++) {
       adr = y * p + x;
 
       /*
@@ -733,8 +733,8 @@ void grad_angle_orientation(image_double in, double threshold, image_double& g, 
            gy = C+D - (A+B)   vertical difference
          com1 and com2 are just to avoid 2 additions.
        */
-      com1 = in->data[adr] - in->data[adr - p - 1];
-      com2 = in->data[adr - p] - in->data[adr - 1];
+      com1 = in->data[adr + p + 1] - in->data[adr];
+      com2 = in->data[adr + 1] - in->data[adr + p];
 
       gx = com1 + com2; /* gradient x component */
       gy = com1 - com2; /* gradient y component */
