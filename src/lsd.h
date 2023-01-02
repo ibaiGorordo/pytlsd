@@ -298,5 +298,8 @@ double *lsd(int *n_out, double *img, int X, int Y, double gradientThreshold = 5.
 image_double gaussian_sampler(image_double in, double scale, double sigma_scale);
 void grad_angle_orientation(image_double in, double threshold, image_double& g, image_double& modgrad);
 
+image_double new_image_double(unsigned int xsize, unsigned int ysize);
+image_double new_image_double_ptr(unsigned int xsize,
+                                  unsigned int ysize, double *data);
 #endif /* !LSD_HEADER */
 /*----------------------------------------------------------------------------*/

@@ -459,7 +459,7 @@ static void free_image_double(image_double i) {
 /*----------------------------------------------------------------------------*/
 /** Create a new image_double of size 'xsize' times 'ysize'.
  */
-static image_double new_image_double(unsigned int xsize, unsigned int ysize) {
+image_double new_image_double(unsigned int xsize, unsigned int ysize) {
   image_double image;
 
   /* check parameters */
@@ -482,7 +482,7 @@ static image_double new_image_double(unsigned int xsize, unsigned int ysize) {
 /** Create a new image_double of size 'xsize' times 'ysize'
     with the data pointed by 'data'.
  */
-static image_double new_image_double_ptr(unsigned int xsize,
+image_double new_image_double_ptr(unsigned int xsize,
                                          unsigned int ysize, double *data) {
   image_double image;
 
