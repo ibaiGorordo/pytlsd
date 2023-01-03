@@ -301,5 +301,6 @@ void grad_angle_orientation(image_double in, double threshold, image_double& g, 
 image_double new_image_double(unsigned int xsize, unsigned int ysize);
 image_double new_image_double_ptr(unsigned int xsize,
                                   unsigned int ysize, double *data);
+void free_image_double(image_double i);
 #endif /* !LSD_HEADER */
 /*----------------------------------------------------------------------------*/

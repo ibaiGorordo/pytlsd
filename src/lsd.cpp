@@ -449,7 +449,7 @@ static image_int new_image_int_ini(unsigned int xsize, unsigned int ysize,
 /*----------------------------------------------------------------------------*/
 /** Free memory used in image_double 'i'.
  */
-static void free_image_double(image_double i) {
+void free_image_double(image_double i) {
   if (i == nullptr || i->data == nullptr)
     error("free_image_double: invalid input image.");
   free((void *) i->data);
