@@ -192,6 +192,13 @@ static double dist(double x1, double y1, double x2, double y2)
 /*----------------------- 'list of n-tuple' data type ------------------------*/
 /*----------------------------------------------------------------------------*/
 
+typedef struct ntuple_list_s {
+    unsigned int size;
+    unsigned int max_size;
+    unsigned int dim;
+    double *values;
+} *ntuple_list;
+
 /*----------------------------------------------------------------------------*/
 /** Free memory used in n-tuple 'in'.
  */
@@ -279,6 +286,20 @@ void add_5tuple( ntuple_list out, double v1, double v2,
 /*----------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------*/
+/** char image data type
+
+The pixel value at (x,y) is accessed by:
+
+    image->data[ x + y * image->xsize ]
+
+    with x and y integer.
+        */
+    typedef struct image_char_s {
+    unsigned char *data;
+    unsigned int xsize, ysize;
+} *image_char;
+
+/*----------------------------------------------------------------------------*/
 /** Free memory used in image_char 'i'.
  */
 void free_image_char(image_char i)
@@ -333,6 +354,20 @@ image_char new_image_char_ini( unsigned int xsize, unsigned int ysize,
 
     return image;
 }
+
+/*----------------------------------------------------------------------------*/
+/** int image data type
+
+The pixel value at (x,y) is accessed by:
+
+    image->data[ x + y * image->xsize ]
+
+    with x and y integer.
+        */
+    typedef struct image_int_s {
+    int *data;
+    unsigned int xsize, ysize;
+} *image_int;
 
 /*----------------------------------------------------------------------------*/
 /** Free memory used in image_int 'i'.
