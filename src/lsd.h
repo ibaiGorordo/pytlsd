@@ -49,6 +49,30 @@ typedef struct image_double_s {
     unsigned int xsize, ysize;
 } *image_double;
 
+/*----------------------------------------------------------------------------*/
+/** char image data type
+
+The pixel value at (x,y) is accessed by:
+
+    image->data[ x + y * image->xsize ]
+
+    with x and y integer.
+        */
+typedef struct image_char_s {
+    unsigned char *data;
+    unsigned int xsize, ysize;
+} *image_char;
+
+
+
+/*----------------------------------------------------------------------------*/
+/** A point (or pixel).
+ */
+struct point
+{
+    int x, y;
+};
+
 
 /*----------------------------------------------------------------------------*/
 /** LSD Full Interface
@@ -296,11 +320,16 @@ double * lsd_scale(int * n_out, double * img, int X, int Y, double scale);
 double *lsd(int *n_out, double *img, int X, int Y, double gradientThreshold = 5.2262518595055063 , double log_eps=0);
 
 image_double gaussian_sampler(image_double in, double scale, double sigma_scale);
-void grad_angle_orientation(image_double in, double threshold, image_double& g, image_double& modgrad);
+void region_grow( int x, int y, image_double angles, struct point *reg,
+                  int *reg_size, double *reg_angle, image_char used,
+                  double prec );
 
 image_double new_image_double(unsigned int xsize, unsigned int ysize);
 image_double new_image_double_ptr(unsigned int xsize,
                                   unsigned int ysize, double *data);
+image_char new_image_char_ini( unsigned int xsize, unsigned int ysize,
+                               unsigned char fill_value );
 void free_image_double(image_double i);
+void free_image_char(image_char i);
 #endif /* !LSD_HEADER */
 /*----------------------------------------------------------------------------*/

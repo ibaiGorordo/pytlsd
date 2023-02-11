@@ -118,14 +118,6 @@ struct coorlist
     struct coorlist *next;
 };
 
-/*----------------------------------------------------------------------------*/
-/** A point (or pixel).
- */
-struct point
-{
-    int x, y;
-};
-
 
 /*----------------------------------------------------------------------------*/
 /*------------------------- Miscellaneous functions --------------------------*/
@@ -285,19 +277,7 @@ void add_5tuple( ntuple_list out, double v1, double v2,
 /*----------------------------- Image Data Types -----------------------------*/
 /*----------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/** char image data type
 
-The pixel value at (x,y) is accessed by:
-
-    image->data[ x + y * image->xsize ]
-
-    with x and y integer.
-        */
-    typedef struct image_char_s {
-    unsigned char *data;
-    unsigned int xsize, ysize;
-} *image_char;
 
 /*----------------------------------------------------------------------------*/
 /** Free memory used in image_char 'i'.
@@ -1650,7 +1630,7 @@ static void region2rect( struct point *reg, int reg_size,
 /** Build a region of pixels that share the same angle, up to a
     tolerance 'prec', starting at point (x,y).
  */
-static void region_grow( int x, int y, image_double angles, struct point *reg,
+void region_grow( int x, int y, image_double angles, struct point *reg,
                          int *reg_size, double *reg_angle, image_char used,
                          double prec )
 {
