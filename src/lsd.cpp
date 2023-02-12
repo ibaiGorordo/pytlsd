@@ -1659,8 +1659,8 @@ void region_grow( int x, int y, image_double angles, struct point *reg,
 
     /* try neighbors as new region points */
     for (i = 0; i < *reg_size; i++)
-        for (xx = reg[i].x - 1; xx <= reg[i].x + 1; xx++)
-            for (yy = reg[i].y - 1; yy <= reg[i].y + 1; yy++)
+        for (yy = reg[i].y - 1; yy <= reg[i].y + 1; yy++)
+            for (xx = reg[i].x - 1; xx <= reg[i].x + 1; xx++)
                 if ( xx >= 0 && yy >= 0 && xx < (int)used->xsize && yy < (int)used->ysize &&
                      used->data[xx + yy * used->xsize] != USED &&
                      isaligned(xx, yy, angles, *reg_angle, prec) )
