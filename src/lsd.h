@@ -73,6 +73,21 @@ struct point
     int x, y;
 };
 
+/*----------------------------------------------------------------------------*/
+/** Rectangle structure: line segment with width.
+ */
+struct rect
+{
+    double x1, y1, x2, y2; /* first and second point of the line segment */
+    double width;        /* rectangle width */
+    double x, y;         /* center of the rectangle */
+    double theta;        /* angle */
+    double dx, dy;       /* vector with the line segment angle */
+    double prec;         /* tolerance angle */
+    double p;            /* probability of a point with angle within 'prec' */
+};
+
+
 
 /*----------------------------------------------------------------------------*/
 /** LSD Full Interface
@@ -323,6 +338,12 @@ image_double gaussian_sampler(image_double in, double scale, double sigma_scale)
 void region_grow( int x, int y, image_double angles, struct point *reg,
                   int *reg_size, double *reg_angle, image_char used,
                   double prec );
+void region2rect( struct point *reg, int reg_size,
+                 image_double modgrad, double reg_angle,
+                 double prec, double p, struct rect *rec );
+int refine( struct point *reg, int *reg_size, image_double modgrad,
+           double reg_angle, double prec, double p, struct rect *rec,
+           image_char used, image_double angles, double density_th );
 
 image_double new_image_double(unsigned int xsize, unsigned int ysize);
 image_double new_image_double_ptr(unsigned int xsize,

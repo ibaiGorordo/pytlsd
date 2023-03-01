@@ -1092,19 +1092,6 @@ static double nfa(int n, int k, double p, double logNT)
 /*--------------------------- Rectangle structure ----------------------------*/
 /*----------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-/** Rectangle structure: line segment with width.
- */
-struct rect
-{
-    double x1, y1, x2, y2; /* first and second point of the line segment */
-    double width;        /* rectangle width */
-    double x, y;         /* center of the rectangle */
-    double theta;        /* angle */
-    double dx, dy;       /* vector with the line segment angle */
-    double prec;         /* tolerance angle */
-    double p;            /* probability of a point with angle within 'prec' */
-};
 
 /*----------------------------------------------------------------------------*/
 /** Copy one rectangle structure to another.
@@ -1537,7 +1524,7 @@ static double get_theta( struct point *reg, int reg_size, double x, double y,
 /*----------------------------------------------------------------------------*/
 /** Computes a rectangle that covers a region of points.
  */
-static void region2rect( struct point *reg, int reg_size,
+void region2rect( struct point *reg, int reg_size,
                          image_double modgrad, double reg_angle,
                          double prec, double p, struct rect *rec )
 {
@@ -1873,7 +1860,7 @@ static int reduce_region_radius( struct point *reg, int *reg_size,
     produce a rectangle with the right density of region points,
     'reduce_region_radius' is called to try to satisfy this condition.
  */
-static int refine( struct point *reg, int *reg_size, image_double modgrad,
+int refine( struct point *reg, int *reg_size, image_double modgrad,
                    double reg_angle, double prec, double p, struct rect *rec,
                    image_char used, image_double angles, double density_th )
 {
